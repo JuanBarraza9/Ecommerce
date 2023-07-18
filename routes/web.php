@@ -1,19 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Backend\BrandController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
 Route::get('/', function () {
@@ -24,6 +22,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
     Route::post('/user/profile/store', [UserController::class, 'userProfileStore'])->name('user.profile.store');
     Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.logout');
+    Route::post('/user/update', [UserController::class, 'userUpdatePassword'])->name('user.update.password');
 }); // Group middleware
 
 // Route::get('/dashboard', function () {
@@ -65,5 +64,13 @@ Route::middleware(['auth', 'role:vendor'])->group(function(){
 Route::get('/admin/login', [AdminController::class, 'adminLogin'])->name('admin.login');
 Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
 
+// admin 
+Route::middleware(['auth', 'role:admin'])->group(function(){
+    // access brand
+    Route::controller(BrandController::class)->group(function(){
+        Route::get('/all-brand', 'allBrand')->name('all.brand');
+        Route::get('/add-brand', 'addBrand')->name('add.brand');
 
+    });
+});
 

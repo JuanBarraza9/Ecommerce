@@ -172,7 +172,7 @@
                                     </div>
 
 
-
+               
                                     <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
                                         <div class="card">
                                             <div class="card-header">
@@ -235,38 +235,64 @@
                                             <div class="card-body">
                                                 
 
-                                                <form action="{{ route('user.profile.store') }}" method="POST" enctype="multipart/form-data">
+                                                <form action="{{ route('user.update.password') }}" method="POST">
                                                     @csrf
+                                                    @if (session('status'))
+                                        
+                                                    <div class="alert alert-success" role="alert">
+                                                        {{session('status')}}
+                                                    </div>
+            
+                                                    @elseif (session('error'))
+            
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{session('error')}}
+                                                    </div>
+                                                
+                                                    @endif
                                                     <div class="row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>User Name <span class="required">*</span></label>
-                                                            <input required class="form-control" name="username" type="text" value="{{ $userData->username}}" />
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label>Full Name <span class="required">*</span></label>
-                                                            <input required class="form-control" name="name" value="{{ $userData->name}}" />
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>Email <span class="required">*</span></label>
-                                                            <input required class="form-control" name="email" type="email" value="{{ $userData->email}}" />
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>Phone <span class="required">*</span></label>
-                                                            <input required class="form-control" name="phone" type="phone" value="{{ $userData->phone}}" />
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>Address <span class="required">*</span></label>
-                                                            <input required class="form-control" name="address" type="text" value="{{ $userData->address}}" />
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>User Photo <span class="required">*</span></label>
-                                                            <input class="form-control pt-3" name="photo" id="image" type="file" />
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>  <span class="required"></span></label>
-                                                            <img id="showImage" src="{{(!empty($userData->photo)) ? url('upload/user_images/'.$userData->photo) : url('upload/user_images/user_image.jpg')}}" alt="user" class="rounded-circle p-1 bg-primary" width="110">
+
+                                                        <div class="form-group ">
+                                                            <label>Old password <span class="required">*</span></label>
+                                                            <input required class="form-control @error('old_password') is-invalid @enderror" 
+                                                              name="old_password" 
+                                                              type="password" value="" 
+                                                              id="current_password"
+                                                              placeholder="Old Password"
+                                                            />
+                                                        
+                                                            @error('old_password')
+                                                                <span class="text-danger">{{$message}}</span>
+                                                            @enderror
                                                         </div>
 
+                                                        <div class="form-group col-md-6">
+                                                            <label>New password <span class="required">*</span></label>
+                                                            <input required class="form-control @error('old_password') is-invalid @enderror" 
+                                                              name="new_password" 
+                                                              type="password" value="" 
+                                                              id="new_password"
+                                                              placeholder="New passoword"
+                                                            />
+                                                        
+                                                            @error('new_password')
+                                                                <span class="text-danger">{{$message}}</span>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label>Confirm New Password<span class="required">*</span></label>
+                                                            <input required 
+                                                              class="form-control"
+                                                              name="new_password_confirmation" 
+                                                              type="password" value="" 
+                                                              id="new_password_confirmation"
+                                                              placeholder="Confirm passoword"
+                                                            />
+                                                        
+                                                        </div>
+
+            
                                                         <div class="col-md-12">
                                                             <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
                                                         </div>
@@ -277,6 +303,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                     {{-- END Change password --}}
 
 
 

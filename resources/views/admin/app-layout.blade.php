@@ -12,6 +12,10 @@
 	<link href="{{asset('adminbackend/assets/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
 	<link href="{{asset('adminbackend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
 	<link href="{{asset('adminbackend/assets/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
+	<!-- data table-->
+	<script src="{{asset('adminbackend/assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+	<link href="{{asset('adminbackend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
+	
 	<!-- loader-->
 	<link href="{{asset('adminbackend/assets/css/pace.min.css')}}" rel="stylesheet" />
 	<script src="{{asset('adminbackend/assets/js/pace.min.js')}}"></script>
@@ -37,8 +41,26 @@
         @include('admin.body.header')
 		<!--start page wrapper -->
 		<div class="page-wrapper">
-            @yield('content')
+			<div class="page-content"> 
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3 mx-2">@yield('title')</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active " aria-current="page">@yield('subtitle')</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="ms-auto">
+	                    @yield('aditional')
+					</div>
+				</div>
+				@yield('content')
+			</div><!--page-content-->
 		</div>
 		
                 
-            @include('admin.body.footer')
+@include('admin.body.footer')

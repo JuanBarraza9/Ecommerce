@@ -2,28 +2,14 @@
 @section('title')
     Profile
 @endsection
+@section('subtitle')
+    Edit
+@endsection
 @section('content')
 
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
-    <div class="page-content"> 
-        <!--breadcrumb-->
-        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3 mx-2">Admin User Profile</div>
-            <div class="ps-3">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="bx bx-home-alt"></i></a>
-                        </li>
-                        <li class="breadcrumb-item active " aria-current="page">Admin Profile</li>
-                    </ol>
-                </nav>
-            </div>
-            <div class="ms-auto">
 
-            </div>
-        </div>
-        <!--end breadcrumb-->
         <div class="container">
             <div class="main-body">
                 <div class="row">
@@ -129,7 +115,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
     
 
