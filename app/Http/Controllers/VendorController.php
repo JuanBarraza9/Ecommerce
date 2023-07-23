@@ -106,4 +106,41 @@ class VendorController extends Controller
         return back()->with("status", "Password Changed Succesfully");
         
     } // end method
+
+    public function becomeVendor()
+    {
+
+        return view('auth.become-vendor');
+    } // end method
+
+    public function vendorRegister(Request $request) {
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed'],
+        ]);
+
+        // Usar la función now() para obtener la fecha actual
+        $currentDateTime = now();
+
+        $user = User::insert([ 
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'role' => 'vendor',
+            'status' => 'inactive',
+            'created_at' => $currentDateTime, // Agregar la fecha actual
+        ]);
+
+        $notification = array(
+            'message' => 'Vendor Registered Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('vendor.login')->with($notification);
+
+    }// End Mehtod 
 }

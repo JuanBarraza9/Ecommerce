@@ -6,7 +6,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\BrandController;
-
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubCategoryController;
+use App\Models\SubCategory;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,16 +63,63 @@ Route::middleware(['auth', 'role:vendor'])->group(function(){
 });
 
 // Route public login
+// admin
 Route::get('/admin/login', [AdminController::class, 'adminLogin'])->name('admin.login');
-Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
 
-// admin 
+// vendor
+Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
+Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
+Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
+
+// admin middleware //
 Route::middleware(['auth', 'role:admin'])->group(function(){
     // access brand
     Route::controller(BrandController::class)->group(function(){
-        Route::get('/all-brand', 'allBrand')->name('all.brand');
-        Route::get('/add-brand', 'addBrand')->name('add.brand');
+        Route::get('/all/brand', 'allBrand')->name('all.brand');
+        Route::get('/add/brand', 'addBrand')->name('add.brand');
+        Route::post('/add/brand', 'storeBrand')->name('brand.store');
+        Route::get('/edit/brand/{id}', 'editBrand')->name('edit.brand');
+        Route::post('/update/brand', 'updateBrand')->name('brand.update');
+        Route::get('/delete/brand/{id}', 'deleteBrand')->name('delete.brand');
 
     });
-});
 
+
+    // access category
+    Route::controller(CategoryController::class)->group(function(){
+        Route::get('/all/category', 'allCategory')->name('all.category');
+        Route::get('/add/category', 'addCategory')->name('add.category');
+        Route::post('/add/category', 'storeCategory')->name('category.store');
+        Route::get('/edit/category/{id}', 'editCategory')->name('edit.category');
+        Route::post('/update/category', 'updateCategory')->name('category.update');
+        Route::get('/delete/category/{id}', 'deleteCategory')->name('delete.category');
+
+    });
+
+
+    // access Subcategory
+    Route::controller(SubCategoryController::class)->group(function(){
+        Route::get('/all/subcategory', 'allSubcategory')->name('all.subcategory');
+        Route::get('/add/subcategory', 'addSubcategory')->name('add.subcategory');
+        Route::post('/add/subcategory', 'storeSubcategory')->name('subcategory.store');
+        Route::get('/edit/subcategory/{id}', 'editSubcategory')->name('edit.subcategory');
+        Route::post('/update/subcategory', 'updateSubcategory')->name('subcategory.update');
+        Route::get('/delete/subcategory/{id}', 'deleteSubcategory')->name('delete.subcategory');
+
+    });
+
+
+    // access + elements
+    Route::controller(AdminController::class)->group(function(){
+        Route::get('/inactive/vendor', 'inactiveVendor')->name('inactive.vendor');
+        Route::get('/active/vendor', 'activeVendor')->name('active.vendor');
+        Route::get('/inactive/vendor/details/{id}', 'inactiveVendorDetails')->name('inactive.vendor.details');
+        Route::get('/active/vendor/details/{id}', 'activeVendorDetails')->name('active.vendor.details');
+        Route::post('/active/vendor/approve', 'activeVendorApprove')->name('active.vendor.approve');
+ 
+    });
+
+
+
+});
+// end middleware admin

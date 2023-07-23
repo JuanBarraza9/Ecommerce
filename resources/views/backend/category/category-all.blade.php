@@ -1,6 +1,6 @@
 @extends('admin.app-layout')
 @section('title')
-    All Brand
+    All Categories
 @endsection
 @section('subtitle')
     Data Table
@@ -10,7 +10,7 @@
 
 @section('aditional')
 <div class="btn-group">
-    <a href="{{route('add.brand')}}" class="btn btn-primary">Add Brand</a>
+    <a href="{{route('add.category')}}" class="btn btn-primary">Add Category</a>
 </div>
 @endsection
 
@@ -21,20 +21,20 @@
                 <thead>
                     <tr>
                         <th>Sl</th>
-                        <th>Brand Name</th>
-                        <th>Brand Image</th>
+                        <th>Category Name</th>
+                        <th>Category Image</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($brands as $key => $brand)
+                    @foreach ($categories as $key => $category)
                     <tr>
                         <td>{{$key+1}}</td>
-                        <td>{{$brand->brand_name}}</td>
-                        <td><img src="{{asset($brand->brand_image)}}" alt="image-brand" style="width: 70px; heigth:70px;"></td>
+                        <td>{{$category->category_name}}</td>
+                        <td><img src="{{asset($category->category_image)}}" alt="image-category" style="width: 70px; heigth:70px;"></td>
                         <td>
-                            <a href="{{route('edit.brand', $brand->id)}}" class="btn btn-info">Edit</a>
-                            <a href="{{route('delete.brand', $brand->id)}}" class="btn btn-danger" id="delete">Delete</a>
+                            <a href="{{route('edit.category', $category->id)}}" class="btn btn-info">Edit</a>
+                            <a href="{{route('delete.category', $category->id)}}" class="btn btn-danger" id="delete">Delete</a>
                         </td>
                     </tr>
                     @endforeach
@@ -43,8 +43,8 @@
                 <tfoot>
                     <tr>
                         <th>Sl</th>
-                        <th>Brand Name</th>
-                        <th>Brand Image</th>
+                        <th>Category Name</th>
+                        <th>Category Image</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
