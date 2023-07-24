@@ -19,7 +19,7 @@ class AdminController extends Controller
 
     public function adminLogin()
     {
-        return view('admin.admin_login');   
+        return view('admin.methods.admin_login');   
     }
 
     public function adminDestroy(Request $request)
@@ -39,7 +39,7 @@ class AdminController extends Controller
         $id = Auth::user()->id;
         $adminData = User::find($id);
 
-        return view('admin.admin_profile_view', compact('adminData'));
+        return view('admin.methods.admin_profile_view', compact('adminData'));
     } // end method
 
     public function adminProfileStore(Request $request)
@@ -77,7 +77,7 @@ class AdminController extends Controller
     public function adminChangePassword()
     {
 
-        return view('admin.admin_change_password');
+        return view('admin.methods.admin_change_password');
     } // end method
 
     public function adminUpdatePassword(Request $request)
@@ -147,6 +147,33 @@ class AdminController extends Controller
         );
 
         return redirect()->route('active.vendor')->with($notification);
+
+    }// End Mehtod 
+
+
+    public function activeVendorDetails($id)
+    {
+
+        $activeVendorDetails = User::findOrFail($id);
+
+        return view('backend.vendor.active-vendor-details', compact('activeVendorDetails'));
+        
+
+    } // end method
+
+    public function inactiveVendorApprove(Request $request){
+
+        $verdor_id = $request->id;
+        $user = User::findOrFail($verdor_id)->update([
+            'status' => 'inactive',
+        ]);
+
+        $notification = array(
+            'message' => 'Vendor InActive Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('inactive.vendor')->with($notification);
 
     }// End Mehtod 
 

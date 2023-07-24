@@ -23,7 +23,7 @@
 	<link rel="stylesheet" href="{{asset('adminbackend/assets/css/dark-theme.css')}}" />
 	<link rel="stylesheet" href="{{asset('adminbackend/assets/css/semi-dark.css')}}" />
 	<link rel="stylesheet" href="{{asset('adminbackend/assets/css/header-colors.css')}}" />
-	<title>Dashboard - @yield('title')</title>
+	<title>Dashboard - @yield('subtitle')</title>
 
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
 
@@ -37,8 +37,26 @@
         @include('vendor.body.header')
 		<!--start page wrapper -->
 		<div class="page-wrapper">
-            @yield('content')
+			<div class="page-content"> 
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3 mx-2 d-flex align-items-center">@yield('title')</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="{{route('vendor.dashboard')}}"><i class="bx bx-home-alt"></i></a></li>
+								<li class="breadcrumb-item active align-middle" aria-current="page">@yield('subtitle')</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="ms-auto">
+						@yield('aditional')
+					</div>
+				</div>
+				
+				@yield('content')
+			</div><!--page-content-->
 		</div>
 		
                 
-        @include('vendor.body.footer')
+@include('vendor.body.footer')

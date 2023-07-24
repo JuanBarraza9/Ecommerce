@@ -7,6 +7,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Models\SubCategory;
 
@@ -105,6 +106,17 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::get('/edit/subcategory/{id}', 'editSubcategory')->name('edit.subcategory');
         Route::post('/update/subcategory', 'updateSubcategory')->name('subcategory.update');
         Route::get('/delete/subcategory/{id}', 'deleteSubcategory')->name('delete.subcategory');
+        Route::get('/subcategory/ajax/{category_id}', 'getSubCategory');
+
+    });
+
+
+    // access product
+    Route::controller(ProductController::class)->group(function(){
+        Route::get('/all/product', 'allProduct')->name('all.product');
+        Route::get('/add/product', 'addProduct')->name('add.product');
+        Route::post('/add/product', 'storeProduct')->name('product.store');
+
 
     });
 
@@ -114,8 +126,9 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
         Route::get('/inactive/vendor', 'inactiveVendor')->name('inactive.vendor');
         Route::get('/active/vendor', 'activeVendor')->name('active.vendor');
         Route::get('/inactive/vendor/details/{id}', 'inactiveVendorDetails')->name('inactive.vendor.details');
-        Route::get('/active/vendor/details/{id}', 'activeVendorDetails')->name('active.vendor.details');
         Route::post('/active/vendor/approve', 'activeVendorApprove')->name('active.vendor.approve');
+        Route::get('/active/vendor/details/{id}', 'activeVendorDetails')->name('active.vendor.details');
+        Route::post('/inactive/vendor/approve', 'inactiveVendorApprove')->name('inactive.vendor.approve');
  
     });
 
