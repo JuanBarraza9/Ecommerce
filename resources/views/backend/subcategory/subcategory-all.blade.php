@@ -23,6 +23,8 @@
                         <th>Sl</th>
                         <th>Category Name</th>
                         <th>SubCategory Name</th>
+                        <th>Color</th>
+                        <th>Size</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -32,6 +34,8 @@
                         <td>{{$key+1}}</td>
                         <td>{{$item['category']['category_name']}}</td>
                         <td>{{$item->subcategory_name}}</td>
+                        <td>{{$item->color}}</td>
+                        <td>{{$item->size}}</td>
                        
                         <td>
                             <a href="{{route('edit.subcategory', $item->id)}}" class="btn btn-info">Edit</a>
@@ -46,6 +50,8 @@
                         <th>Sl</th>
                         <th>Category Name</th>
                         <th>SubCategory Name</th>
+                        <th>Color</th>
+                        <th>Size</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>

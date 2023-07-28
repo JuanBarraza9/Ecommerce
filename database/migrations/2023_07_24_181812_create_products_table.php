@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('product_code');
             $table->integer('quantity');
             $table->string('product_tags')->nullable();
-            $table->string('product_size')->nullable();
-            $table->string('product_color')->nullable();
             $table->decimal('selling_price', 10, 2);
             $table->decimal('discount_price', 10, 2)->nullable();
             $table->string('short_desc');
@@ -36,7 +34,12 @@ return new class extends Migration
             $table->integer('special_offer')->nullable();
             $table->integer('special_deals')->nullable();
             $table->integer('status')->default(0);
+
+            $table->json('colors_and_quantities')->nullable();
+            $table->json('sizes_and_quantities')->nullable();
+
             $table->timestamps();
+    
         });
     }
 

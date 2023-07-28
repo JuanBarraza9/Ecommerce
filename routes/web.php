@@ -9,7 +9,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SubCategoryController;
-use App\Models\SubCategory;
+use App\Http\Controllers\Backend\AttributesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,12 +111,28 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
     });
 
 
+    // access Attributes
+    Route::controller(AttributesController::class)->group(function(){
+        // size
+        Route::get('/all/attributes/sizes', 'allAttributesSizes')->name('all.sizes');
+        Route::get('/add/attribute/size', 'addAttributeSize')->name('add.size');
+        Route::post('/add/attribute/size', 'storeSize')->name('size.store');
+        Route::get('/delete/size/{id}', 'deleteSize')->name('delete.size');
+        // color
+        Route::get('/all/attributes/colors', 'allAttributesColors')->name('all.colors');
+        Route::get('/add/attribute/color', 'addAttributeColor')->name('add.color');
+        Route::post('/add/attribute/color', 'storeColor')->name('color.store');
+        Route::get('/delete/color/{id}', 'deleteColor')->name('delete.color');
+        // gender
+
+    });
+
+
     // access product
     Route::controller(ProductController::class)->group(function(){
         Route::get('/all/product', 'allProduct')->name('all.product');
         Route::get('/add/product', 'addProduct')->name('add.product');
         Route::post('/add/product', 'storeProduct')->name('product.store');
-
 
     });
 

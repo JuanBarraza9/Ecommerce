@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('category_id');
             $table->string('subcategory_name');
             $table->string('subcategory_slug');
+            $table->boolean('color')->default(0);
+            $table->boolean('size')->default(0);
             $table->timestamps();
         });
     }

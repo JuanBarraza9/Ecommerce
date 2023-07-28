@@ -64,6 +64,35 @@
 
 				<!-- Sub category -->
 
+
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-category"></i>
+						</div>
+						<div class="menu-title">Attributes</div>
+					</a>
+					<ul>
+						<li> <a href="{{route('all.sizes')}}"><i class="bx bx-right-arrow-alt"></i>All Sizes</a>
+						</li>
+						<li> <a href="{{route('add.size')}}"><i class="bx bx-right-arrow-alt"></i>Add Size</a>
+						</li>
+					</ul>
+					<ul>
+						<li> <a href="{{route('all.colors')}}"><i class="bx bx-right-arrow-alt"></i>All Colors</a>
+						</li>
+						<li> <a href="{{route('add.color')}}"><i class="bx bx-right-arrow-alt"></i>Add Color</a>
+						</li>
+					</ul>
+					<ul>
+						<li> <a href="{{route('all.sizes')}}"><i class="bx bx-right-arrow-alt"></i>All Genders</a>
+						</li>
+						<li> <a href="{{route('add.size')}}"><i class="bx bx-right-arrow-alt"></i>Add Gender</a>
+						</li>
+					</ul>
+				</li>
+
+				<!-- Sub category -->
+
 				<li>
 					<a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class="bx bx-category"></i>

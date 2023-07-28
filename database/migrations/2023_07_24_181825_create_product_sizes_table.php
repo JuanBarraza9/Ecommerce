@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('size_id');
             $table->integer('quantity');
             $table->timestamps();
-            // Agregar cualquier otro campo que necesites para esta tabla
+    
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('size_id')->references('id')->on('sizes')->onDelete('cascade');
         });

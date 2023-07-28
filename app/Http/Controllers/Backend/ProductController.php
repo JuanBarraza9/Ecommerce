@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Carbon\Carbon;
+use App\Models\Size;
 use App\Models\User;
 use App\Models\Brand;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\MultiImage;
 use App\Models\SubCategory;
+use App\Models\ProductColor;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 
@@ -29,22 +32,28 @@ class ProductController extends Controller
         $activeVendor = User::where('status', 'active')->where('role', 'vendor')->latest()->get();
         $brands = Brand::latest()->get();
         $categories = Category::latest()->get();
+        $sizes = Size::latest()->get();
+        $colors = Color::latest()->get();
 
         return view('backend.product.add-product', [
             'brands' => $brands,
             'categories' => $categories,
             'activeVendor' => $activeVendor,
+            'sizes' => $sizes,
+            'colors' => $colors,
         ]);
     }
 
     public function storeProduct(Request $request)
     {
+
+
         $image = $request->file('product_thambnail');
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         Image::make($image)->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
         $save_url = 'upload/products/thambnail/'.$name_gen;
 
-        $product_id = Product::insertGetId([
+        $product = Product::create([
 
             'brand_id' => $request->brand_id,
             'category_id' => $request->category_id,
@@ -55,8 +64,6 @@ class ProductController extends Controller
             'product_code' => $request->product_code,
             'quantity' => $request->quantity,
             'product_tags' => $request->product_tags,
-            'product_size' => $request->product_size,
-            'product_color' => $request->product_color,
 
             'selling_price' => $request->selling_price,
             'discount_price' => $request->discount_price,
@@ -73,9 +80,11 @@ class ProductController extends Controller
             'status' => 1,
             'created_at' => Carbon::now(), 
 
-        ]);
+        ])->fresh();
 
-        /// Multiple Image Upload From her //////
+        $product_id = $product->id;
+
+        /// Multiple Image Upload //////
 
         $images = $request->file('multi_img');
         foreach($images as $img){
@@ -91,8 +100,6 @@ class ProductController extends Controller
         ]); 
         
         } // end foreach
-
-        /// End Multiple Image Upload From her //////
 
         $notification = array(
             'message' => 'Product Inserted Successfully',
