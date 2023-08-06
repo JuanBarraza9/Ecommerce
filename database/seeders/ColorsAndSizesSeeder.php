@@ -18,6 +18,17 @@ class ColorsAndSizesSeeder extends Seeder
     public function run()
     {
 
+        // Generar tallas
+        Size::create(['name' => 'S']);
+        Size::create(['name' => 'M']);
+        Size::create(['name' => 'L']);
+        Size::create(['name' => 'XL']);
 
+        // Generar colores
+        Color::create(['name' => 'Red']);
+        Color::create(['name' => 'Blue']);
+        Color::create(['name' => 'Green']);
+        Color::create(['name' => 'Yellow']);
+        Color::create(['name' => 'Black']);
     }
 }

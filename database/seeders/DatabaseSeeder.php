@@ -17,5 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UsersTableSeeder::class);
         \App\Models\User::factory(8)->create();
+
+        $this->call(ColorsAndSizesSeeder::class);
+
     }
 }

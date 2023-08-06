@@ -34,6 +34,9 @@ class ProductController extends Controller
         $categories = Category::latest()->get();
         $sizes = Size::latest()->get();
         $colors = Color::latest()->get();
+        $subcategories = SubCategory::latest()->get();
+    // Obtenemos las subcategorías y agregamos los atributos "color" y "size"
+    
 
         return view('backend.product.add-product', [
             'brands' => $brands,
@@ -41,6 +44,7 @@ class ProductController extends Controller
             'activeVendor' => $activeVendor,
             'sizes' => $sizes,
             'colors' => $colors,
+            'subcategories' => $subcategories,
         ]);
     }
 
@@ -53,7 +57,7 @@ class ProductController extends Controller
         Image::make($image)->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
         $save_url = 'upload/products/thambnail/'.$name_gen;
 
-        $product = Product::create([
+        $product_id = Product::insertGetId([
 
             'brand_id' => $request->brand_id,
             'category_id' => $request->category_id,
@@ -64,6 +68,8 @@ class ProductController extends Controller
             'product_code' => $request->product_code,
             'quantity' => $request->quantity,
             'product_tags' => $request->product_tags,
+            'product_size' => $request->product_size,
+            'product_color' => $request->product_color,
 
             'selling_price' => $request->selling_price,
             'discount_price' => $request->discount_price,
@@ -80,9 +86,7 @@ class ProductController extends Controller
             'status' => 1,
             'created_at' => Carbon::now(), 
 
-        ])->fresh();
-
-        $product_id = $product->id;
+        ]);
 
         /// Multiple Image Upload //////
 

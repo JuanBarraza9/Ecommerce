@@ -49,59 +49,17 @@
                 </div>
                 <!-- tags -->
 
-
-                <!-- MODAL COLOR -->
-
-                <div class="col mb-3">
-                  <input type="hidden" name="colors_data" id="selectedColorsDataInput">
-                  <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleDarkModal">Select color</button>
-                  
-                  <!-- Modal -->
-                  <div class="modal fade " id="exampleDarkModal" tabindex="-1" aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                      <div class="modal-content bg-dark">
-                        <div class="modal-header">
-                          <h5 class="modal-title text-white">Select Colors</h5>
-                          <button type="button" class="btn btn-danger btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body text-white">
-                          <div class="mb-3">
-                            <label for="product-color" class="form-label">Product Color</label>
-                             <select name="product-color" class="form-select" id="product-color">
-                              <option selected disabled>-- Select --</option>
-                                 @foreach ($colors as $color)
-                              <option value="{{$color->id}}">{{$color->name}}</option>
-                             @endforeach
-                            </select>
-                          </div>
-                          <!-- color -->
-
-                          <div class="card-body">
-                            <table class="table mb-0 table-dark table-striped" id="selectedColorsTable">
-                              <thead>
-                                <tr>
-                                  <th scope="col">#ID</th>
-                                  <th scope="col">Name</th>
-                                  <th scope="col">Cantidad</th>
-                                  <th scope="col">Delete</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-success" id="saveChangesBtn">Save changes</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="mb-3">
+                  <label for="product-size" class="form-label">Product Size</label>
+                  <input type="text" name="product_size" class="form-control visually-hidden" data-role="tagsinput" value="Small,Midium,Large ">
                 </div>
+                <!-- Size -->
 
+                <div class="mb-3">
+                  <label for="product-color" class="form-label">Product Color</label>
+                  <input type="text" name="product_color" class="form-control visually-hidden" data-role="tagsinput" value="Red,Blue,Black">
+                </div>
+                <!-- Size -->
 
                 <div class="form-group mb-3">
                   <label for="inputProductDescriptionShort" class="form-label">Short Description</label>
@@ -118,7 +76,7 @@
                 <div class="form-group mb-3">
                   <label for="inputimageThambnail" class="form-label">Main Thambnail</label>
                   <input name="product_thambnail" class="form-control" onchange="mainThamUrl(this)" type="file" id="inputimageThambnail">
-                  <img src="" id="mainThumb" alt="">
+                  <img src="" id="mainThmb" alt="">
                 </div>
                 <!-- img Thambnail -->
 
@@ -132,8 +90,11 @@
                 </div>
                 <!-- img Multi -->
 
+
+
               </div>
              </div>
+             
              <div class="col-lg-4">
               <div class="border border-3 p-4 rounded">
                 <div class="row g-3">
@@ -181,14 +142,14 @@
                     </div>
                     <!-- Category -->
                   
-                    <div class="form-group col-12">
-                      <label for="inputCollection" class="form-label">Product SubCategory</label>
-                      <select name="subcategory_id" class="form-select" id="inputCollection">
-                        <option></option>
-
-                        </select>
+                   <div class="form-group col-12" id="subcategoryContainer" style="display: none;">
+                      <label for="inputSubCategory" class="form-label">Product SubCategory</label>
+                       <select name="subcategory_id" class="form-select" id="inputSubCategory">
+                          <option selected disabled>-- Select --</option>
+                       </select>
                     </div>
                     <!-- SubCategory -->
+                    
                   
                     <div class="col-12">
                       <label for="inputProductVendor" class="form-label">Select Vendor</label>
@@ -234,7 +195,8 @@
 
                       </div>
                     </div>
-                    <!-- Price -->
+                    <!--  -->
+
 
                     
 
@@ -247,26 +209,51 @@
                 </div> 
             </div>
             </div>
+
+            
          </div><!--end row-->
         </div>
-
+        
       </form>
     </div>
 </div>
 
+
 <script type="text/javascript">
-   
-   function mainThamUrl(input){
-    if(input.files && input.files[0]){
-      let reader = new FileReader();
-      reader.onload = function(e){
-        $('#mainThumb').attr('src', e.target.result).width(80).height(80);
+  $(document).ready(function(){
+    $('select[name="category_id"]').on('change', function(){
+      var category_id = $(this).val();
+      if (category_id) {
+        $.ajax({
+          url: "{{ url('/subcategory/ajax') }}/"+category_id,
+          type: "GET",
+          dataType:"json",
+          success:function(data){
+            $('select[name="subcategory_id"]').html('');
+            $.each(data, function(key, value){
+              $('select[name="subcategory_id"]').append('<option value="'+ value.id + '">' + value.subcategory_name + '</option>');
+            });
+            
+            $('#subcategoryContainer').show(); // Mostrar el contenedor de subcategoría al recibir una respuesta exitosa
+          },
+        });
+      } else {
+        alert('danger');
+      }
+    });
+  });
+</script>
 
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-   }
-
+<script type="text/javascript">
+	function mainThamUrl(input){
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$('#mainThmb').attr('src',e.target.result).width(80).height(80);
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
 </script>
 
 
@@ -279,7 +266,7 @@
           var data = $(this)[0].files; //this file data
            
           $.each(data, function(index, file){ //loop though each file
-              if(/(\.|\/)(gif|jpe?g|png|webp|avif)$/i.test(file.type)){ //check supported file type
+              if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){ //check supported file type
                   var fRead = new FileReader(); //new filereader
                   fRead.onload = (function(file){ //trigger function on successful read
                   return function(e) {
@@ -298,137 +285,7 @@
    });
   });
    
-</script>
-
-
-<script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('select[name="category_id"]').addEventListener('change', function() {
-      var category_id = this.value;
-      if (category_id) {
-        fetch("{{ url('/subcategory/ajax') }}/" + category_id)
-          .then(response => response.json())
-          .then(data => {
-            var subcategorySelect = document.querySelector('select[name="subcategory_id"]');
-            subcategorySelect.innerHTML = '';
-            data.forEach(function(value) {
-              subcategorySelect.insertAdjacentHTML('beforeend', '<option value="' + value.id + '">' + value.subcategory_name + '</option>');
-            });
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-      } else {
-        alert('danger');
-      }
-    });
-  });
-</script>
-
-<!-- COLOR -->
-<script>
-  $(document).ready(function() {
-    var selectedColors = []; // Array para almacenar los colores seleccionados con sus cantidades
-
-    function eliminarFila(colorId) {
-    // Convertir el ID del color a un número entero
-    colorId = parseInt(colorId);
-
-    // Verificar si el ID del color coincide con el ID almacenado en el array
-    console.log('Array de colores seleccionados:', selectedColors);
-
-    // Encontrar el índice del color en el array selectedColors
-    var colorIndex = selectedColors.findIndex(color => color.id === colorId);
-
-    // Si se encontró el color en el array, eliminarlo
-    if (colorIndex !== -1) {
-        selectedColors.splice(colorIndex, 1);
-    }
-
-    // Eliminar la fila visualmente de la tabla
-    $(`#selectedColorsTable tbody tr[data-color-id="${colorId}"]`).remove();
-
-    console.log('Array de colores seleccionados después de eliminar:', selectedColors);
-    } 
-
-
-
-
-    // Función para agregar una fila a la tabla de colores seleccionados
-    function agregarFila(colorId, colorName, cantidad) {
-
-      colorId = parseInt(colorId);
-
-      var newRow = `
-        <tr data-color-id="${colorId}">
-          <th scope="row">${colorId}</th>
-          <td>${colorName}</td>
-          <td><input type="number" class="cantidadInput" value="${cantidad}" min="1"></td>
-          <td><button type="button" class="btn btn-danger eliminarColorBtn" data-color-id="${colorId}">Eliminar</button></td>
-        </tr>`;
-      $('#selectedColorsTable tbody').append(newRow);
-
-      // Agregar el color al array selectedColors
-      selectedColors.push({
-        id: colorId,
-        name: colorName,
-        cantidad: cantidad
-      });
-
-      // Escuchar por cambios en la cantidad y actualizar el array
-      $(`#selectedColorsTable tbody tr[data-color-id="${colorId}"] .cantidadInput`).on('change', function() {
-        var newCantidad = parseInt($(this).val());
-        if (!isNaN(newCantidad) && newCantidad > 0) {
-          var colorIndex = selectedColors.findIndex(color => color.id === colorId);
-          if (colorIndex !== -1) {
-            selectedColors[colorIndex].cantidad = newCantidad;
-          }
-        }
-      });
-    }
-
-    // Evento para agregar una fila cuando el usuario selecciona un color
-    $('#product-color').on('change', function() {
-      var colorId = $(this).val();
-      var colorName = $("#product-color option:selected").text();
-      if (colorId) {
-        agregarFila(colorId, colorName, 1);
-      }
-    });
-
-    // Evento para eliminar una fila cuando el usuario hace clic en el botón "Eliminar"
-    $('#selectedColorsTable').on('click', '.eliminarColorBtn', function() {
-      var colorId = $(this).data('color-id');
-      eliminarFila(colorId);
-    });
-
-    // Evento para guardar los cambios
-    $('#saveChangesBtn').on('click', function() {
-      // Obtener las cantidades de cada color seleccionado y actualizar el array
-      $('#selectedColorsTable tbody tr').each(function() {
-        var colorId = $(this).find('th').text();
-        var cantidad = $(this).find('.cantidadInput').val();
-        var colorIndex = selectedColors.findIndex(color => color.id === parseInt(colorId));
-        if (colorIndex !== -1) {
-          // Convertir la cantidad a número entero
-          cantidad = parseInt(cantidad);
-          // Verificar si la cantidad es un número válido
-          if (!isNaN(cantidad) && cantidad > 0) {
-            selectedColors[colorIndex].cantidad = cantidad;
-          }
-        }
-      });
-
-      console.log(selectedColors);
-
-      // Actualizar el campo oculto con los datos del array selectedColors en formato JSON
-      $('#selectedColorsDataInput').val(JSON.stringify(selectedColors));
-
-    });
-  });
-</script>
-
-
+  </script>
 
 
 
@@ -505,7 +362,6 @@
   });
   
 </script>
-
 
 
 @endsection

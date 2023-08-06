@@ -31,8 +31,7 @@ class AttributesController extends Controller
     {
 
         Size::insert([
-            'name' => $request->name,
-            'category_id' => $request->category_id
+            'name' => $request->name
          ]);
 
         $notification = array(
